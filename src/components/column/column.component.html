@@ -1,0 +1,12 @@
+<div
+  class="column"
+  cdkDropList
+  [cdkDropListData]="column.tasks"
+  (cdkDropListDropped)="onTaskDropped($event)"
+  [id]="column.id"
+>
+  <h3 class="column-title">{{ column.title }}</h3>
+  <task *ngFor="let item of column.tasks" [task]="item" />
+
+  <button class="add-task-button">+</button>
+</div>

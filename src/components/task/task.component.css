@@ -1,0 +1,15 @@
+.task-container {
+  border: 2px solid #e3e3e3;
+  border-radius: 5%;
+  background-color: rgb(78, 105, 169);
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-container.cdk-drag-preview {
+  opacity: 0.8; /* Adjust the opacity of the dragged element preview */
+  background-color: #5497b4; /* Customize the background color of the dragged element preview */
+}

@@ -1,0 +1,7 @@
+<div class="column-container" cdkDropListGroup>
+  <task-column
+    (drop)="drop($event)"
+    *ngFor="let column of columns"
+    [column]="column"
+  />
+</div>

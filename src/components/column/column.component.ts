@@ -22,6 +22,7 @@ export class Column {
   } = { id: 'temp', title: '', tasks: [] };
 
   @Output() drop = new EventEmitter();
+  @Output() dialogOpen = new EventEmitter<string>();
 
   onTaskDropped(
     event: CdkDragDrop<
@@ -30,5 +31,9 @@ export class Column {
     >
   ) {
     this.drop.emit(event);
+  }
+
+  onDialogOpen(columnId: string) {
+    this.dialogOpen.emit(columnId);
   }
 }

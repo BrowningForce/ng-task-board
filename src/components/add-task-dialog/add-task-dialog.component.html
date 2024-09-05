@@ -1,6 +1,7 @@
-<h3>Add Task</h3>
-<div>
+<div class="dialog-content">
+  <h3>Add Task</h3>
   <textarea name="task name"></textarea>
+  <input readonly value="data" />
 
-  <button>Add</button>
+  <button (click)="onAddTask($event)" type="submit">Add</button>
 </div>

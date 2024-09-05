@@ -8,5 +8,5 @@
   <h3 class="column-title">{{ column.title }}</h3>
   <task *ngFor="let item of column.tasks" [task]="item" />
 
-  <button class="add-task-button">+</button>
+  <button (click)="onDialogOpen(column.id)" class="add-task-button">+</button>
 </div>

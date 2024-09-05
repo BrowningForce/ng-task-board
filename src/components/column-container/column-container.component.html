@@ -3,5 +3,6 @@
     (drop)="drop($event)"
     *ngFor="let column of columns"
     [column]="column"
+    (dialogOpen)="openDialog($event)"
   />
 </div>

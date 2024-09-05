@@ -1,0 +1,7 @@
+.dialog-content {
+  width: 48vw;
+  height: 25vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}

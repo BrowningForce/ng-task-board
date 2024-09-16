@@ -1,7 +1,14 @@
 <div class="dialog-content">
   <h3>Add Task</h3>
-  <textarea name="task name"></textarea>
-  <input readonly value="data" />
+  <form [formGroup]="addTaskFormGroupControl" (ngSubmit)="onAddTask()">
+    <label for="task_title">Task Title</label>
+    <input id="task_title" formControlName="title" />
+    <label for="task_description">Task Description</label>
+    <textarea id="task_description" formControlName="description"></textarea>
+    <input type="checkbox" ngModel="changed" />
 
-  <button (click)="onAddTask($event)" type="submit">Add</button>
+    <button type="submit">Add</button>
+
+    <p>Form status: {{ addTaskFormGroupControl.status }}</p>
+  </form>
 </div>

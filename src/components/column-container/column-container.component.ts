@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import {
   CdkDragDrop,
-  CdkDropListGroup,
   DragDropModule,
   moveItemInArray,
   transferArrayItem,
@@ -10,6 +9,7 @@ import { Column } from '../column/column.component';
 import { CommonModule } from '@angular/common';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { AddTaskDialog } from '../add-task-dialog/add-task-dialog.component';
+import { ColumnType, TaskEvent } from '../../types/types';
 
 @Component({
   selector: 'column-container',
@@ -20,20 +20,22 @@ import { AddTaskDialog } from '../add-task-dialog/add-task-dialog.component';
 })
 export class ColumnContainer {
   columnId: string = '';
-
   dialog = inject(Dialog);
-  columns = [
+  columns: ColumnType[] = [
     {
       title: 'Backlog',
-      tasks: [
-        { title: 'Add more tasks', status: 'backlog' },
-        { title: 'Some more work ahead', status: 'backlog' },
-      ],
+      tasks: [],
       id: 'backlog',
     },
     {
       title: 'To Do',
-      tasks: [{ title: 'Identify container', status: 'to_do' }],
+      tasks: [
+        {
+          title: 'Make tasks come from local storage',
+          status: 'to_do',
+          description: '',
+        },
+      ],
       id: 'to_do',
     },
     { title: 'In Progress', tasks: [], id: 'in_progress' },
@@ -58,12 +60,23 @@ export class ColumnContainer {
   }
 
   openDialog(event: string) {
-    const dialogRef = this.dialog.open<string>(AddTaskDialog, {
+    const dialogRef = this.dialog.open<TaskEvent>(AddTaskDialog, {
       width: '250px',
       data: event,
     });
     dialogRef.closed.subscribe((result) => {
-      console.log(result);
+      if (!result) return;
+      this.onAddTask(result);
+    });
+  }
+
+  onAddTask(event: TaskEvent) {
+    const targetColumn = this.columns.find((col) => col.id === event.colId)!;
+
+    targetColumn.tasks.push({
+      title: event.title,
+      status: event.colId,
+      description: event.description,
     });
   }
 }

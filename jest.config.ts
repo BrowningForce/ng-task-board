@@ -13,9 +13,11 @@ const config: Config = {
   testMatch: ['**/+(*.)+(spec).+(ts)'], // Match test files
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
+    '^.+\\.html$': 'jest-transform-stub',
   },
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/app/$1',
+    '\\.(html|css)$': 'jest-transform-stub',
   },
   collectCoverage: true,
   coverageReporters: ['html'],

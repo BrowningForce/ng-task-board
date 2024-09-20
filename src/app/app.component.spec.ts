@@ -1,29 +1,22 @@
-import { TestBed } from '@angular/core/testing';
+import { render, screen } from '@testing-library/angular';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AppComponent],
-    }).compileComponents();
+    await render(AppComponent);
   });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    expect(screen.getByText(/hello, task-tracker/i)).toBeTruthy();
   });
 
   it(`should have the 'task-tracker' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('task-tracker');
+    const app = screen.getByText(/hello, task-tracker/i).textContent;
+    expect(app).toContain('task-tracker');
   });
 
   it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, task-tracker');
+    const titleElement = screen.getByRole('heading'); // Assuming your title is in an <h1>
+    expect(titleElement).toHaveTextContent('Hello, task-tracker');
   });
 });

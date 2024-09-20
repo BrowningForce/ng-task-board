@@ -1,13 +1,35 @@
-import { Injectable } from '@angular/core';
-import { TaskType } from '../../types/types';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { ColumnType, TaskType } from '../../types/types';
 import { Subject } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocalStorageService {
   private storageChangeSubject = new Subject<void>();
-  constructor() {}
+  private platformID = inject(PLATFORM_ID);
+
+  get columns(): ColumnType[] {
+    let localColumns: ColumnType[] = [];
+
+    if (isPlatformBrowser(this.platformID)) {
+      const _columns = localStorage.getItem('columns');
+
+      if (_columns) {
+        localColumns = JSON.parse(_columns);
+      }
+    }
+
+    return localColumns;
+  }
+
+  set columns(newColumns) {
+    if (isPlatformBrowser(this.platformID)) {
+      localStorage.setItem('columns', JSON.stringify(newColumns));
+      this.storageChangeSubject.next();
+    }
+  }
 
   get tasks(): TaskType[] {
     let localTasks: TaskType[] = [];

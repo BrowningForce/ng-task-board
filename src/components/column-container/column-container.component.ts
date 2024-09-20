@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import {
   CdkDragDrop,
   DragDropModule,
@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { AddTaskDialog } from '../add-task-dialog/add-task-dialog.component';
 import { ColumnType, TaskEvent } from '../../types/types';
+import { LocalStorageService } from '../../app/services/local-storage.service';
 
 @Component({
   selector: 'column-container',
@@ -19,28 +20,38 @@ import { ColumnType, TaskEvent } from '../../types/types';
   imports: [CommonModule, DragDropModule, DialogModule, Column, AddTaskDialog],
 })
 export class ColumnContainer {
-  columnId: string = '';
   dialog = inject(Dialog);
-  columns: ColumnType[] = [
-    {
-      title: 'Backlog',
-      tasks: [],
-      id: 'backlog',
-    },
-    {
-      title: 'To Do',
-      tasks: [
+  private localStorageService = inject(LocalStorageService);
+  columns: ColumnType[] = [];
+
+  ngOnInit() {
+    if (this.localStorageService.columns.length > 0) {
+      this.columns = this.localStorageService.columns;
+    } else {
+      this.localStorageService.columns = [
         {
-          title: 'Make tasks come from local storage',
-          status: 'to_do',
-          description: '',
+          title: 'Backlog',
+          tasks: [],
+          id: 'backlog',
         },
-      ],
-      id: 'to_do',
-    },
-    { title: 'In Progress', tasks: [], id: 'in_progress' },
-    { title: 'Done', tasks: [], id: 'done' },
-  ];
+        {
+          title: 'To Do',
+          tasks: [
+            {
+              title: 'Make tasks come from local storage',
+              status: 'to_do',
+              description: '',
+            },
+          ],
+          id: 'to_do',
+        },
+        { title: 'In Progress', tasks: [], id: 'in_progress' },
+        { title: 'Done', tasks: [], id: 'done' },
+      ];
+
+      this.columns = this.localStorageService.columns;
+    }
+  }
 
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
@@ -57,6 +68,8 @@ export class ColumnContainer {
         event.currentIndex
       );
     }
+
+    this.localStorageService.columns = this.columns;
   }
 
   openDialog(event: string) {
@@ -78,5 +91,8 @@ export class ColumnContainer {
       status: event.colId,
       description: event.description,
     });
+
+    this.localStorageService.columns = this.columns;
+    this.columns = this.localStorageService.columns;
   }
 }

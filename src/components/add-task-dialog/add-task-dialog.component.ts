@@ -6,7 +6,7 @@ import { TaskEvent, TaskType } from '../../types/types';
 @Component({
   selector: 'add-task-dialog',
   standalone: true,
-  styleUrl: './add-task-dialog.component.css',
+  styleUrls: ['./add-task-dialog.component.css'],
   templateUrl: './add-task-dialog.component.html',
   imports: [DialogModule, ReactiveFormsModule],
 })
@@ -35,9 +35,5 @@ export class AddTaskDialog {
       description: description ?? '',
       colId: this.data,
     });
-  }
-
-  onTextBoxChange(event: any) {
-    console.log(event);
   }
 }

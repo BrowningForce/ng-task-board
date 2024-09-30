@@ -6,6 +6,7 @@
   height: 80vh;
   background-color: #e4e4e4;
   position: relative;
+  overflow-y: scroll;
 }
 
 .column-title {
@@ -15,6 +16,7 @@
   background-color: #e4e4e4;
   margin: 0;
   height: 50px;
+  flex-shrink: 0;
 }
 
 .add-task-button {

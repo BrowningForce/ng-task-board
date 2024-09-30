@@ -1,22 +1,34 @@
 import { render, screen } from '@testing-library/angular';
 import { AppComponent } from './app.component';
+import { Dialog } from '@angular/cdk/dialog';
 
 describe('AppComponent', () => {
-  beforeEach(async () => {
-    await render(AppComponent);
+  it('should create the app', async () => {
+    await render(AppComponent, {
+      providers: [Dialog],
+    });
+    expect(await screen.findByText(/hello, task-tracker/i)).toBeTruthy();
   });
 
-  it('should create the app', () => {
-    expect(screen.getByText(/hello, task-tracker/i)).toBeTruthy();
-  });
+  it(`should have the 'task-tracker' title`, async () => {
+    await render(AppComponent, {
+      providers: [Dialog],
+    });
 
-  it(`should have the 'task-tracker' title`, () => {
     const app = screen.getByText(/hello, task-tracker/i).textContent;
+
     expect(app).toContain('task-tracker');
   });
 
-  it('should render title', () => {
-    const titleElement = screen.getByRole('heading'); // Assuming your title is in an <h1>
-    expect(titleElement).toHaveTextContent('Hello, task-tracker');
+  it('should render title', async () => {
+    await render(AppComponent, {
+      providers: [Dialog],
+    });
+
+    const titleElement = screen.getByRole('heading', {
+      name: 'Hello, task-tracker',
+    });
+
+    expect(titleElement).toBeInTheDocument();
   });
 });
